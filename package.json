@@ -10,13 +10,13 @@
     "seed": "node prisma/seed.js || ts-node prisma/seed.ts || true"
   },
   "dependencies": {
-    "next": "15.5.4",
-    "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "@prisma/client": "5.7.0"
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@prisma/client": "latest"
   },
   "devDependencies": {
-    "prisma": "5.7.0",
-    "typescript": "5.9.5"
+    "prisma": "latest",
+    "typescript": "latest"
   }
 }

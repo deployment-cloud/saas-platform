@@ -27,16 +27,19 @@ model User {
 }
 
 model Document {
-  id        String   @id @default(cuid())
-  tenantId  String?
-  ownerId   String?
-  type      String
-  filename  String
-  url       String
-  size      Int?
-  mimeType  String?
-  metadata  Json?
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  tenantId    String?
+  ownerId     String?
+  type        String
+  filename    String
+  url         String
+  size        Int?
+  mimeType    String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  rfq         RFQ?     @relation("RFQDocs", fields: [rfqId], references: [id])
+  rfqId       String?
 }
 
 model RFQ {
@@ -69,7 +72,7 @@ model RFQResponse {
 }
 
 model CourierBooking {
-  id              String  @id @default(cuid())
+  id              String   @id @default(cuid())
   shipmentId      String
   carrier         String
   pickupAddress   Json
@@ -79,11 +82,12 @@ model CourierBooking {
 }
 
 model FreightBooking {
-  id            String  @id @default(cuid())
+  id            String   @id @default(cuid())
   shipmentId    String
   freightMode   String
   containerType String?
   volumeCbM     Float?
   createdAt     DateTime @default(now())
 }
+
 

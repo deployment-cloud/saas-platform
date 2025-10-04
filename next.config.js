@@ -2,7 +2,7 @@
 const path = require('path');
 const nextConfig = {
   reactStrictMode: true,
-  experimental: { serverActions: true },
+  experimental: { serverActions: {} },
   images: { domains: ['localhost', '127.0.0.1'] },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

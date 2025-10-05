@@ -1,10 +1,51 @@
 'use client';
-
 import Link from 'next/link';
 import { useState } from 'react';
 
+// Hero Section Feature Cards
+const features = [
+  {
+    title: 'Freight Management',
+    desc: 'Book air, sea, or road freight with automated carrier integrations.',
+    link: '/freight',
+  },
+  {
+    title: 'Courier Shipping',
+    desc: 'Create express courier shipments with instant rate comparison.',
+    link: '/courier',
+  },
+  {
+    title: 'Warehouse Booking',
+    desc: 'Reserve warehouse space and manage storage availability.',
+    link: '/warehouse',
+  },
+  {
+    title: 'Customs Brokerage',
+    desc: 'Submit clearance requests and track customs status.',
+    link: '/customs',
+  },
+  {
+    title: 'Tracking & Notifications',
+    desc: 'Get live tracking updates and multi-channel alerts.',
+    link: '/tracking',
+  },
+  {
+    title: 'Admin & Analytics',
+    desc: 'Manage tenants, invoices, users, and view system-wide metrics.',
+    link: '/admin',
+  },
+];
+
 export default function Home() {
   const [search, setSearch] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // link to tracking or search result page with tracking value
+    if (search) {
+      window.location.href = `/tracking/${search}`;
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-800">
@@ -26,15 +67,19 @@ export default function Home() {
           Manage freight, courier, warehouse, and customs in one unified SaaS platform.
         </p>
         <div className="flex justify-center space-x-4">
-          <Link href="/dashboard" className="bg-blue-600 text-white px-6 py-3 rounded-md shadow hover:bg-blue-700">Launch Dashboard</Link>
-          <Link href="/rfq" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-md hover:bg-gray-300">Request a Quote</Link>
+          <Link href="/dashboard" className="bg-blue-600 text-white px-6 py-3 rounded-md shadow hover:bg-blue-700">
+            Launch Dashboard
+          </Link>
+          <Link href="/rfq" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-md hover:bg-gray-300">
+            Request a Quote
+          </Link>
         </div>
       </section>
 
       {/* Search + Quick RFQ */}
       <section className="max-w-5xl mx-auto py-8 px-6 bg-white shadow rounded-md mt-10">
         <h3 className="text-xl font-semibold mb-4">Track or Get Instant Rates</h3>
-        <form className="flex space-x-4">
+        <form className="flex space-x-4" onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="Enter tracking number or shipment ID..."
@@ -50,36 +95,9 @@ export default function Home() {
 
       {/* Features Grid */}
       <section className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-8">
-        <FeatureCard
-          title="Freight Management"
-          desc="Book air, sea, or road freight with automated carrier integrations."
-          link="/freight"
-        />
-        <FeatureCard
-          title="Courier Shipping"
-          desc="Create express courier shipments with instant rate comparison."
-          link="/courier"
-        />
-        <FeatureCard
-          title="Warehouse Booking"
-          desc="Reserve warehouse space and manage storage availability."
-          link="/warehouse"
-        />
-        <FeatureCard
-          title="Customs Brokerage"
-          desc="Submit clearance requests and track customs status."
-          link="/customs"
-        />
-        <FeatureCard
-          title="Tracking & Notifications"
-          desc="Get live tracking updates and multi-channel alerts."
-          link="/tracking"
-        />
-        <FeatureCard
-          title="Admin & Analytics"
-          desc="Manage tenants, invoices, users, and view system-wide metrics."
-          link="/admin"
-        />
+        {features.map((feature) => (
+          <FeatureCard key={feature.title} {...feature} />
+        ))}
       </section>
 
       {/* Chat + RFQ Integration */}
@@ -111,7 +129,13 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ title, desc, link }: { title: string; desc: string; link: string }) {
+type FeatureProps = {
+  title: string;
+  desc: string;
+  link: string;
+};
+
+function FeatureCard({ title, desc, link }: FeatureProps) {
   return (
     <Link href={link} className="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
       <h4 className="text-xl font-semibold mb-2">{title}</h4>

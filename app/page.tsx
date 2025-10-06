@@ -12,21 +12,6 @@ export default function Home() {
           <Link href="/rfq" className="px-4 py-2 border rounded">Request Quote</Link>
         </div>
       </section>
-
-      <section className="grid md:grid-cols-3 gap-6 mt-6">
-        <Card title="Freight" desc="Air, Sea, Road - LCL/FCL" href="/freight" />
-        <Card title="Courier" desc="Express door-to-door" href="/courier" />
-        <Card title="Warehouse" desc="Book storage & manage inventory" href="/warehouse" />
-      </section>
     </main>
-  );
-}
-
-function Card({title,desc,href}:{title:string;desc:string;href:string}){
-  return (
-    <Link href={href} className="block bg-white p-6 rounded shadow hover:shadow-lg transition">
-      <h3 className="text-xl font-semibold">{title}</h3>
-      <p className="text-gray-600">{desc}</p>
-    </Link>
   );
 }

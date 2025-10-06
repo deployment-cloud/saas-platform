@@ -1,14 +1,15 @@
-# SaaS Logistics - Tailwind frontend scaffold (GitHub-ready)
+# SaaS Platform - Final (Postgres, Node 20, Prisma fixes)
 
-This package includes a verified `app/` folder, Tailwind config, Prisma schema and minimal pages that match the logistics modules.
+This package is ready to push to GitHub and deploy on DigitalOcean App Platform.
 
-Install:
+Quick start:
 
 ```bash
+cp .env.example .env
 npm install
 npx prisma generate
+npx prisma migrate dev --name init
+npx prisma db seed
 npm run build
 npm start
 ```
-
-Deploy on DigitalOcean App Platform by pushing to GitHub and connecting the repo.

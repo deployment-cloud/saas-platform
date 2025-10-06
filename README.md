@@ -1,18 +1,26 @@
-SaaS Logistics - Complete package (invite-only SSO + multi-tenant)
+# saas-platform (Fixed for DigitalOcean App Platform)
 
-Generated: 2025-10-06T13:25:40.698779Z
+This project was adjusted to be App Platform friendly.
 
-Quick start:
+## Changes made
+- Updated `package.json` start script to use dynamic PORT: `sh -c 'next start -p ${PORT:-8080}'`
+- Ensured `engines.node` is set to `>=18.0.0`
+- Added `.env.example` with `DATABASE_URL` placeholder
+- Ensured Prisma `schema.prisma` uses `provider = "postgresql"` and `url = env("DATABASE_URL")` (if schema present)
+- Added `next.config.js` and `tsconfig.json` (if TypeScript used)
 
-1. copy .env.example to .env and fill DATABASE_URL & NEXTAUTH_SECRET & provider keys
-2. npm ci
-3. npx prisma generate
-4. npx prisma migrate dev --name init
-5. npx prisma db seed
-6. npm run build
-7. npm start
+## Redeploy (manual ZIP upload)
+1. Download the fixed ZIP from this chat.
+2. In DigitalOcean Cloud -> Apps -> Your App -> Components, choose **Edit** and **Upload** the new ZIP (or create a new component).
+3. Set environment variables:
+   - `DATABASE_URL` — your PostgreSQL connection string.
+   - Any other `NEXT_PUBLIC_*` ENV variables you need.
+4. Deploy. The App Platform will use the `engines.node` value and run `npm run build` then `npm start`.
 
-Notes:
-- Invite-only SSO uses NextAuth (Google + Email). Invitations API issues tokens for tenant invites.
-- Middleware protects /admin and tenant APIs.
-- Adjust mail provider in /api/invitations to send emails (nodemailer or an external service).
+## Redeploy (from Git)
+1. Commit the fixed `package.json` and other files to your repo.
+2. Push to Git and redeploy from DigitalOcean.
+
+## Notes
+- The `.env.example` is for reference; do **not** commit real secrets.
+- If you use Prisma migrations, run them separately or configure migration step in App Platform build commands.

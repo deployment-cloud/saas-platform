@@ -1,15 +1,18 @@
-# SaaS Platform - Final (Postgres, Node 20, Prisma fixes)
+SaaS Logistics - Complete package (invite-only SSO + multi-tenant)
 
-This package is ready to push to GitHub and deploy on DigitalOcean App Platform.
+Generated: 2025-10-06T13:25:40.698779Z
 
 Quick start:
 
-```bash
-cp .env.example .env
-npm install
-npx prisma generate
-npx prisma migrate dev --name init
-npx prisma db seed
-npm run build
-npm start
-```
+1. copy .env.example to .env and fill DATABASE_URL & NEXTAUTH_SECRET & provider keys
+2. npm ci
+3. npx prisma generate
+4. npx prisma migrate dev --name init
+5. npx prisma db seed
+6. npm run build
+7. npm start
+
+Notes:
+- Invite-only SSO uses NextAuth (Google + Email). Invitations API issues tokens for tenant invites.
+- Middleware protects /admin and tenant APIs.
+- Adjust mail provider in /api/invitations to send emails (nodemailer or an external service).

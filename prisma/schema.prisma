@@ -1,5 +1,6 @@
 // prisma/schema.prisma
 
+// ✅ Use Prisma Client JS (not postgresql)
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,12 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ---------------------------
+// MODELS
+// ---------------------------
+
 model Tenant {
   id        String     @id @default(cuid())
   name      String
   slug      String     @unique
   users     User[]
-  shipments Shipment[] // 👈 added reverse relation
+  shipments Shipment[] // ✅ Added reverse relation to Shipment
   createdAt DateTime   @default(now())
 }
 
@@ -34,7 +39,7 @@ model Shipment {
   status           String
   tenantId         String
   tenant           Tenant            @relation(fields: [tenantId], references: [id])
-  courierBookings  CourierBooking[]  // 👈 added reverse relation
+  courierBookings  CourierBooking[]  // ✅ Added reverse relation to CourierBooking
   createdAt        DateTime          @default(now())
 }
 

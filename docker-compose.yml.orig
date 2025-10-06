@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: saas
+      POSTGRES_PASSWORD: saaspass
+      POSTGRES_DB: saasdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
+  app:
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: "postgresql://saas:saaspass@postgres:5432/saasdb?schema=public"
+      REDIS_URL: "redis://redis:6379"
+    ports:
+      - "3000:3000"
+volumes:
+  pgdata:

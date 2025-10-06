@@ -22,14 +22,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-<<<<<<< HEAD
   url      = env("DATABASE_URL")
-=======
-  url      = env("DATABASE_URL") // Prisma Accelerate URL
-  // Optionally, add directUrl for migrations if you have a direct DB connection
+  // Optional direct connection for migrations
   // directUrl = env("DIRECT_DATABASE_URL")
->>>>>>> 4a6d7256a00465057f59eecdf23459d0ae969b67
 }
+
 
 model Invitation {
   id        String   @id @default(cuid())

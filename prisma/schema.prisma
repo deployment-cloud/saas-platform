@@ -1,5 +1,13 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 model Tenant {
   id        String   @id @default(cuid())
@@ -21,7 +29,7 @@ model User {
 }
 
 model CourierBooking {
-  id              String  @id @default(cuid())
+  id              String   @id @default(cuid())
   shipmentId      String
   carrier         String
   pickupAddress   Json

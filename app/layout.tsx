@@ -1,4 +1,4 @@
-import './globals.css';
+import '../styles/globals.css';
 import Link from 'next/link';
 export const metadata = { title: 'SaaS Logistics Platform' };
 export default function RootLayout({ children }) {

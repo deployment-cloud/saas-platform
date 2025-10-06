@@ -16,7 +16,7 @@ const options = {
       from: process.env.SMTP_FROM,
     }),
   ],
-  session: { strategy: 'jwt' },
+  session: { strategy: 'jwt' as const },
   callbacks: {
     async signIn({ user }) {
       const invited = await prisma.invitation.findFirst({

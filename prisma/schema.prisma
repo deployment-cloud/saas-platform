@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,62 +5,137 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // Optional direct connection for migrations
-  // directUrl = env("DIRECT_DATABASE_URL")
 }
 
 model Tenant {
-  id           String        @id @default(cuid())
-  name         String
-  slug         String        @unique
-  users        User[]
-  shipments    Shipment[]
-  invitations  Invitation[]
-  createdAt    DateTime      @default(now())
+  id               String   @id @default(cuid())
+  name             String
+  slug             String?  @unique
+  stripeCustomerId String?
+  planId           String?
+  plan             Plan?    @relation(fields: [planId], references: [id])
+  users            User[]
+  shipments        Shipment[]
+  warehouses       Warehouse[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  billingStatus    BillingStatus @default(ACTIVE)
+}
+
+model Plan {
+  id            String   @id @default(cuid())
+  stripePriceId String   @unique
+  name          String
+  price         Float
+  currency      String
+  features      Json
+  tenants       Tenant[]
+  createdAt     DateTime @default(now())
+}
+
+enum BillingStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
 }
 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
+  password  String
   name      String?
-  role      String   @default("user")
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  role      Role     @default(USER)
+  tenantId  String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
   createdAt DateTime @default(now())
 }
 
-model Invitation {
-  id        String   @id @default(cuid())
-  email     String
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  role      String
-  token     String   @unique
-  expiresAt DateTime
-  accepted  Boolean  @default(false)
-  createdAt DateTime @default(now())
+enum Role {
+  ADMIN
+  MANAGER
+  COURIER
+  USER
 }
 
 model Shipment {
-  id              String            @id @default(cuid())
-  trackingNo      String            @unique
-  status          String
+  id              String        @id @default(cuid())
   tenantId        String
-  tenant          Tenant            @relation(fields: [tenantId], references: [id])
-  courierBookings CourierBooking[]
-  createdAt       DateTime          @default(now())
+  tenant          Tenant        @relation(fields: [tenantId], references: [id])
+  reference       String        @unique
+  origin          String
+  destination     String
+  status          ShipmentStatus @default(PENDING)
+  weight          Float?
+  cost            Float?
+  assignedDriverId String?
+  assignedDriver  Driver?       @relation(fields: [assignedDriverId], references: [id])
+  vehicleId       String?
+  vehicle         Vehicle?      @relation(fields: [vehicleId], references: [id])
+  warehouseId     String?
+  warehouse       Warehouse?    @relation(fields: [warehouseId], references: [id])
+  estimatedDelivery DateTime?
+  deliveredAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  trackingLogs    TrackingLog[]
 }
 
-model CourierBooking {
-  id              String   @id @default(cuid())
-  shipmentId      String
-  carrier         String
-  pickupAddress   Json
-  deliveryAddress Json
-  packageDetails  Json
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  shipment Shipment @relation(fields: [shipmentId], references: [id])
+enum ShipmentStatus {
+  PENDING
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
 }
 
+model Driver {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  licenseNo String
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  shipments Shipment[]
+  vehicle   Vehicle?
+}
+
+model Vehicle {
+  id        String   @id @default(cuid())
+  plateNo   String   @unique
+  type      String
+  capacity  Float?
+  status    VehicleStatus @default(AVAILABLE)
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  driverId  String?
+  driver    Driver?  @relation(fields: [driverId], references: [id])
+  shipments Shipment[]
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  IN_USE
+  MAINTENANCE
+}
+
+model Warehouse {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  shipments Shipment[]
+}
+
+model TrackingLog {
+  id          String   @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id])
+  status      ShipmentStatus
+  location    String
+  latitude    Float?
+  longitude   Float?
+  note        String?
+  timestamp   DateTime @default(now())
+}

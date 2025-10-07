@@ -1,23 +1,24 @@
-import '../styles/globals.css';
-import Link from 'next/link';
-export const metadata = { title: 'SaaS Logistics Platform' };
-export default function RootLayout({ children }) {
+// app/layout.tsx
+import './globals.css'
+import { ReactNode } from 'react'
+import { ThemeToggle } from '../components/ThemeToggle'
+
+
+export const metadata = {
+  title: 'LogiSaaS',
+  description: 'Logistics SaaS platform',
+}
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang='en'>
-      <body>
-        <header className='bg-gradient-to-r from-primary to-accent text-white p-4'>
-          <div className='max-w-7xl mx-auto flex justify-between'>
-            <Link href='/' className='font-bold'>SaaS Logistics</Link>
-            <nav className='space-x-4'>
-              <Link href='/dashboard'>Dashboard</Link>
-              <Link href='/freight'>Freight</Link>
-              <Link href='/courier'>Courier</Link>
-              <Link href='/admin'>Admin</Link>
-            </nav>
-          </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+        <header className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+          <h1 className="text-xl font-semibold">LogiSaaS</h1>
+          <ThemeToggle />
         </header>
-        <main className='max-w-7xl mx-auto p-6'>{children}</main>
+        <main className="p-6">{children}</main>
       </body>
     </html>
-  );
+  )
 }

@@ -1,5 +1,22 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{ts,tsx,js,jsx}', './components/**/*.{ts,tsx,js,jsx}'],
-  theme: { extend: { colors: { primary: '#0052cc', accent: '#0091ff' } } },
+  darkMode: ['class', '[data-theme="dark"]'],
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        secondary: "var(--secondary)",
+        accent: "var(--accent)",
+        border: "var(--border)",
+      },
+    },
+  },
   plugins: [],
 };

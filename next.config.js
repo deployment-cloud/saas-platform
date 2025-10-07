@@ -1,8 +1,13 @@
+echo "const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  // Any other Next.js settings can go here
+  experimental: { appDir: true },
+  webpack(config) {
+    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+    return config;
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;" > next.config.js

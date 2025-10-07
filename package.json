@@ -2,43 +2,32 @@
   "name": "logisaas",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
   },
   "dependencies": {
-    "@prisma/client": "4.15.0",
-    "bcrypt": "5.1.0",
-    "clsx": "1.2.1",
-    "leaflet": "^1.9.4",
-    "lucide-react": "^0.545.0",
     "next": "^14.2.33",
-    "next-auth": "^4.24.11",
-    "prisma": "4.15.0",
-    "pusher": "5.0.0",
-    "pusher-js": "7.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
-    "stripe": "12.8.0",
-    "zod": "^3.25.76",
-    "zustand": "4.4.0"
+    "leaflet": "^1.9.4",
+    "bcrypt": "^5.1.0",
+    "prisma": "^5.11.1",
+    "@prisma/client": "^5.11.1",
+    "pg": "^8.11.1",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.14",
-    "@types/node": "^24.7.0",
-    "@types/react": "^19.2.1",
-    "autoprefixer": "^10.4.21",
-    "eslint": "8.44.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.14",
-    "typescript": "5.4.2"
+    "eslint": "^8.44.0",
+    "eslint-config-next": "^14.2.33",
+    "typescript": "^5.3.1"
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=22.0.0",
+    "npm": ">=11.6.1"
   }
 }

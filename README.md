@@ -23,5 +23,18 @@ This repository is a scaffold implementing core functionality across all 6 phase
 - GitHub Actions workflow (CI / migration)
 - Seed script for initial plans and admin user
 
+# Fleet Map Update Instructions
+
+1. Copy all folders (app, components, lib, scripts) into your project root.
+2. Run: npm install react-leaflet leaflet framer-motion
+3. Add "node": ">=18.17.0" to package.json "engines" if not already present.
+4. Run Prisma migration to add coordinates:
+   npx prisma migrate dev --name add_coordinates_to_shipments
+5. Start simulation in one terminal:
+   npm run simulate:tracking
+6. Start app in another terminal:
+   npm run dev
+7. Visit http://localhost:3000/dashboard to see live animated trucks.
+
 ## Important
 This scaffold is intentionally concise to be easy to review and extend. Treat it as the canonical starting point — add production hardening, testing, and complete UI as needed.

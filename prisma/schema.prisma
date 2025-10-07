@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 model Invitation {
     id        String   @id @default(cuid())
       email     String
@@ -23,6 +24,39 @@ datasource db {
         url      = env("DATABASE_URL") // Prisma Accelerate URL
           // Optionally, add directUrl for migrations if you have a direct DB connection
             // directUrl = env("DIRECT_DATABASE_URL")
+=======
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // Optional direct connection for migrations
+  // directUrl = env("DIRECT_DATABASE_URL")
+}
+
+model Tenant {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  users        User[]
+  shipments    Shipment[]
+  invitations  Invitation[]
+  createdAt    DateTime      @default(now())
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("user")
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+>>>>>>> 050d53cd87430094e9031992998ca403ca34cf92
 }
 
 model Invitation {
@@ -36,6 +70,7 @@ model Invitation {
                   accepted  Boolean  @default(false)
                     createdAt DateTime @default(now())
 }
+<<<<<<< HEAD
   shipments Shipment[] // ✅ Added: to complete the relation
     createdAt DateTime   @default(now())
       provider        = "prisma-client-js"
@@ -60,3 +95,29 @@ model Invitation {
 }
 }
 }
+=======
+
+model Shipment {
+  id              String            @id @default(cuid())
+  trackingNo      String            @unique
+  status          String
+  tenantId        String
+  tenant          Tenant            @relation(fields: [tenantId], references: [id])
+  courierBookings CourierBooking[]
+  createdAt       DateTime          @default(now())
+}
+
+model CourierBooking {
+  id              String   @id @default(cuid())
+  shipmentId      String
+  carrier         String
+  pickupAddress   Json
+  deliveryAddress Json
+  packageDetails  Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  shipment Shipment @relation(fields: [shipmentId], references: [id])
+}
+
+>>>>>>> 050d53cd87430094e9031992998ca403ca34cf92

@@ -2,24 +2,29 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const tenant = await prisma.tenant.upsert({
-    where: { slug: 'demo-tenant' },
+  await prisma.plan.upsert({
+    where: { stripePriceId: 'price_basic' },
     update: {},
-    create: { name: 'Demo Tenant', slug: 'demo-tenant' },
+    create: {
+      stripePriceId: 'price_basic',
+      name: 'Starter',
+      price: 29,
+      currency: 'usd',
+      features: { warehouse: false, realtimeTracking: false, rfq: true }
+    }
   });
-
   await prisma.user.upsert({
     where: { email: 'admin@example.com' },
     update: {},
     create: {
       email: 'admin@example.com',
-      name: 'Admin',
-      role: 'ADMIN',
-      tenantId: tenant.id,
-    },
+      password: '$2b$10$CwTycUXWue0Thq9StjUM0uJ8x6b0hZEt6j1oY6Zxq2Z2QK6f0w1G6',
+      name: 'Admin User'
+    }
   });
-
-  console.log('Seed completed');
+  console.log('seed complete');
 }
 
-main().catch(e=>{ console.error(e); process.exit(1); }).finally(()=>prisma.$disconnect());
+main()
+  .catch(e => { console.error(e); process.exit(1); })
+  .finally(async () => { await prisma.$disconnect(); });

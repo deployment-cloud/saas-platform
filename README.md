@@ -1,26 +1,27 @@
-# saas-platform (Fixed for DigitalOcean App Platform)
+# LogiSaaS - Scaffolded Platform (Phases 1-6)
 
-This project was adjusted to be App Platform friendly.
+This repository is a scaffold implementing core functionality across all 6 phases described earlier:
+1. Authentication & Authorization
+2. Frontend UI/UX (dashboard layout + pages)
+3. SaaS Features (multi-tenancy + Stripe integration scaffolding)
+4. Logistics Core (shipments, drivers, vehicles, warehouses, tracking)
+5. DevOps & Production (Dockerfile, docker-compose, CI workflow)
+6. Marketing & Growth (landing page + marketing assets)
 
-## Changes made
-- Updated `package.json` start script to use dynamic PORT: `sh -c 'next start -p ${PORT:-8080}'`
-- Ensured `engines.node` is set to `>=18.0.0`
-- Added `.env.example` with `DATABASE_URL` placeholder
-- Ensured Prisma `schema.prisma` uses `provider = "postgresql"` and `url = env("DATABASE_URL")` (if schema present)
-- Added `next.config.js` and `tsconfig.json` (if TypeScript used)
+> This is a starting implementation. After pulling the files you must:
+> - Install dependencies: `npm ci`
+> - Create `.env` from `.env.example` and set secrets
+> - Run `npx prisma generate` and `npx prisma migrate dev`
+> - Start local stack (Postgres) or use `docker-compose up --build`
 
-## Redeploy (manual ZIP upload)
-1. Download the fixed ZIP from this chat.
-2. In DigitalOcean Cloud -> Apps -> Your App -> Components, choose **Edit** and **Upload** the new ZIP (or create a new component).
-3. Set environment variables:
-   - `DATABASE_URL` — your PostgreSQL connection string.
-   - Any other `NEXT_PUBLIC_*` ENV variables you need.
-4. Deploy. The App Platform will use the `engines.node` value and run `npm run build` then `npm start`.
+## What's included
+- Next.js app (App Router) with example pages and API routes
+- Prisma schema with tenant, user, plan, shipment, driver, vehicle, warehouse, tracking models
+- Stripe webhook handler stub
+- Pusher-based tracking endpoint example
+- Dockerfile & docker-compose for local testing
+- GitHub Actions workflow (CI / migration)
+- Seed script for initial plans and admin user
 
-## Redeploy (from Git)
-1. Commit the fixed `package.json` and other files to your repo.
-2. Push to Git and redeploy from DigitalOcean.
-
-## Notes
-- The `.env.example` is for reference; do **not** commit real secrets.
-- If you use Prisma migrations, run them separately or configure migration step in App Platform build commands.
+## Important
+This scaffold is intentionally concise to be easy to review and extend. Treat it as the canonical starting point — add production hardening, testing, and complete UI as needed.

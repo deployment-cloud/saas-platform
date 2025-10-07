@@ -1,10 +1,10 @@
-"use client"; // required in the App Router for client components
+"use client"; // Required for client-side components
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Fix leaflet icon issues in Next.js
+// Fix default icon issues with Leaflet + Next.js
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -20,14 +20,14 @@ export default function Map({ center = [51.505, -0.09], zoom = 13 }) {
     <MapContainer
       center={center}
       zoom={zoom}
-      style={{ height: "100%", width: "100%" }}
+      style={{ height: "400px", width: "100%" }} // You can adjust height
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       <Marker position={center}>
-        <Popup>Sample marker</Popup>
+        <Popup>Sample Marker</Popup>
       </Marker>
     </MapContainer>
   );

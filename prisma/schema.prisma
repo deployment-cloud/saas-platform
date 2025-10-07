@@ -1,3 +1,5 @@
+// prisma/schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,9 +7,11 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // directUrl = env("DIRECT_DATABASE_URL")
 }
 
+// --------------------
+// Tenant & User models
+// --------------------
 model Tenant {
   id           String        @id @default(cuid())
   name         String
@@ -28,6 +32,9 @@ model User {
   createdAt DateTime @default(now())
 }
 
+// --------------------
+// Invitations
+// --------------------
 model Invitation {
   id        String   @id @default(cuid())
   email     String
@@ -40,6 +47,9 @@ model Invitation {
   createdAt DateTime @default(now())
 }
 
+// --------------------
+// Shipments & Bookings
+// --------------------
 model Shipment {
   id              String            @id @default(cuid())
   trackingNo      String            @unique

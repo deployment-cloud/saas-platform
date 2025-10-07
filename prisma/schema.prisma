@@ -12,23 +12,17 @@ model Invitation {
 // prisma/schema.prisma
 
 generator client {
-<<<<<<< HEAD
   provider = "prisma-client-js"
-=======
   provider        = "prisma-client-js"
   previewFeatures = ["accelerate"] // Enable Prisma Accelerate
->>>>>>> 4a6d7256a00465057f59eecdf23459d0ae969b67
 }
 
 datasource db {
   provider = "postgresql"
-<<<<<<< HEAD
   url      = env("DATABASE_URL")
-=======
   url      = env("DATABASE_URL") // Prisma Accelerate URL
   // Optionally, add directUrl for migrations if you have a direct DB connection
   // directUrl = env("DIRECT_DATABASE_URL")
->>>>>>> 4a6d7256a00465057f59eecdf23459d0ae969b67
 }
 
 model Invitation {
@@ -44,7 +38,6 @@ model Invitation {
 }
   shipments Shipment[] // ✅ Added: to complete the relation
   createdAt DateTime   @default(now())
->>>>>>> 4a6d7256a00465057f59eecdf23459d0ae969b67
   provider        = "prisma-client-js"
   previewFeatures = ["accelerate"] // Enable Prisma Accelerate
 }
@@ -55,89 +48,9 @@ model User {
   // Optionally, add directUrl for migrations if you have a direct DB connection
   // directUrl = env("DIRECT_DATABASE_URL")
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  id        String     @id @default(cuid())
-  name      String
-  slug      String     @unique
-  users     User[]
-  shipments Shipment[] // To complete the relation
-  invitations  Invitation[]
-  createdAt DateTime   @default(now())
-  role      String   @default("user")
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  id        String   @id @default(cuid())
-  email     String   @unique
+  // prisma/schema.prisma
+
   name      String?
   role      String   @default("user")
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  createdAt DateTime @default(now())
-  createdAt DateTime @default(now())
-}
-
-  id          String            @id @default(cuid())
-  trackingNo  String            @unique
   status      String
-  tenantId    String
-  tenant      Tenant            @relation(fields: [tenantId], references: [id])
-  courierBookings CourierBooking[] // reverse relation for CourierBooking
-  createdAt   DateTime          @default(now())
-}
-model Shipment {
-<<<<<<< HEAD
-  id               String    @id @default(cuid())
-  shipmentId       String
-  carrier          String
-  pickupAddress    Json
-  deliveryAddress  Json
-  packageDetails   Json
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-
-  shipment         Shipment  @relation(fields: [shipmentId], references: [id])
-}
-  id             String           @id @default(cuid())
-  trackingNo     String           @unique
-  status         String
-  tenantId       String
-  tenant         Tenant           @relation(fields: [tenantId], references: [id])
-  createdAt      DateTime         @default(now())
-  CourierBooking CourierBooking[]
-}
-
-model CourierBooking {
-  id              String   @id @default(cuid())
-  shipmentId      String
-  carrier         String
-  pickupAddress   Json
-  deliveryAddress Json
-  packageDetails  Json
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  shipment Shipment @relation(fields: [shipmentId], references: [id])
-=======
-  id          String            @id @default(cuid())
-  trackingNo  String            @unique
-  status      String
-  tenantId    String
-  tenant      Tenant            @relation(fields: [tenantId], references: [id])
-  courierBookings CourierBooking[] // ✅ Added: reverse relation for CourierBooking
-  createdAt   DateTime          @default(now())
-}
-
-model CourierBooking {
-  id               String    @id @default(cuid())
-  shipmentId       String
-  carrier          String
-  pickupAddress    Json
-  deliveryAddress  Json
-  packageDetails   Json
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-
-  shipment         Shipment  @relation(fields: [shipmentId], references: [id])
->>>>>>> 4a6d7256a00465057f59eecdf23459d0ae969b67
-}
+  // prisma/schema.prisma

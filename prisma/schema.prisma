@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,17 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --------------------
-// Tenant & User models
-// --------------------
 model Tenant {
-  id           String        @id @default(cuid())
-  name         String
-  slug         String        @unique
-  users        User[]
-  shipments    Shipment[]
-  invitations  Invitation[]
-  createdAt    DateTime      @default(now())
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  users       User[]
+  shipments   Shipment[]
+  invitations Invitation[]
+  createdAt   DateTime    @default(now())
 }
 
 model User {
@@ -32,9 +27,6 @@ model User {
   createdAt DateTime @default(now())
 }
 
-// --------------------
-// Invitations
-// --------------------
 model Invitation {
   id        String   @id @default(cuid())
   email     String
@@ -47,9 +39,6 @@ model Invitation {
   createdAt DateTime @default(now())
 }
 
-// --------------------
-// Shipments & Bookings
-// --------------------
 model Shipment {
   id              String            @id @default(cuid())
   trackingNo      String            @unique

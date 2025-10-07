@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-model Invitation {
-    id        String   @id @default(cuid())
-      email     String
-        tenantId  String
-          tenant    Tenant   @relation(fields: [tenantId], references: [id])
-            role      String
-              token     String   @unique
-                expiresAt DateTime
-                  accepted  Boolean  @default(false)
-                    createdAt DateTime @default(now())
-}
-// prisma/schema.prisma
-
-generator client {
-    provider = "prisma-client-js"
-      provider        = "prisma-client-js"
-        previewFeatures = ["accelerate"] // Enable Prisma Accelerate
-}
-
-datasource db {
-    provider = "postgresql"
-      url      = env("DATABASE_URL")
-        url      = env("DATABASE_URL") // Prisma Accelerate URL
-          // Optionally, add directUrl for migrations if you have a direct DB connection
-            // directUrl = env("DIRECT_DATABASE_URL")
-=======
 // prisma/schema.prisma
 
 generator client {
@@ -56,46 +29,19 @@ model User {
   tenantId  String
   tenant    Tenant   @relation(fields: [tenantId], references: [id])
   createdAt DateTime @default(now())
->>>>>>> 050d53cd87430094e9031992998ca403ca34cf92
 }
 
 model Invitation {
-    id        String   @id @default(cuid())
-      email     String
-        tenantId  String
-          tenant    Tenant   @relation(fields: [tenantId], references: [id])
-            role      String
-              token     String   @unique
-                expiresAt DateTime
-                  accepted  Boolean  @default(false)
-                    createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  email     String
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  role      String
+  token     String   @unique
+  expiresAt DateTime
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
-<<<<<<< HEAD
-  shipments Shipment[] // ✅ Added: to complete the relation
-    createdAt DateTime   @default(now())
-      provider        = "prisma-client-js"
-        previewFeatures = ["accelerate"] // Enable Prisma Accelerate
-        }
-
-        model User {
-            provider = "postgresql"
-              url      = env("DATABASE_URL") // Prisma Accelerate URL
-                // Optionally, add directUrl for migrations if you have a direct DB connection
-                  // directUrl = env("DIRECT_DATABASE_URL")
-                    id        String   @id @default(cuid())
-                      // prisma/schema.prisma
-
-                        name      String?
-                          role      String   @default("user")
-                            status      String
-                              // prisma/schema.prisma
-                              
-        }
-}
-}
-}
-}
-=======
 
 model Shipment {
   id              String            @id @default(cuid())
@@ -119,5 +65,3 @@ model CourierBooking {
 
   shipment Shipment @relation(fields: [shipmentId], references: [id])
 }
-
->>>>>>> 050d53cd87430094e9031992998ca403ca34cf92

@@ -18,48 +18,48 @@ datasource db {
 // --------------------------------------------------
 
 model Tenant {
-  id              String          @id @default(cuid())
-  name            String
-  domain          String?         @unique
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  users           User[]          @relation("TenantUsers")
-  invitations     Invitation[]    @relation("TenantInvitations")
-  shipments       Shipment[]      @relation("TenantShipments")
-  subscriptions   Subscription[]  @relation("TenantSubscriptions")
+  id            String         @id @default(cuid())
+  name          String
+  domain        String?        @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  users         User[]         @relation("TenantUsers")
+  invitations   Invitation[]   @relation("TenantInvitations")
+  shipments     Shipment[]     @relation("TenantShipments")
+  subscriptions Subscription[] @relation("TenantSubscriptions")
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String     @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  role          String     @default("user")
+  role          String    @default("user")
   tenantId      String?
-  tenant        Tenant?    @relation("TenantUsers", fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant        Tenant?   @relation("TenantUsers", fields: [tenantId], references: [id], onDelete: Cascade)
   accounts      Account[]
   sessions      Session[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 // NextAuth.js models
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
-  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -100,13 +100,13 @@ model Shipment {
 }
 
 model TrackingEvent {
-  id          String   @id @default(cuid())
-  status      String
-  location    String
-  timestamp   DateTime @default(now())
-  remarks     String?
-  shipmentId  String
-  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  status     String
+  location   String
+  timestamp  DateTime @default(now())
+  remarks    String?
+  shipmentId String
+  shipment   Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
 }
 
 // --------------------------------------------------
@@ -114,15 +114,15 @@ model TrackingEvent {
 // --------------------------------------------------
 
 model Invitation {
-  id         String   @id @default(cuid())
-  email      String
-  tenantId   String
-  tenant     Tenant   @relation("TenantInvitations", fields: [tenantId], references: [id], onDelete: Cascade)
-  role       String   @default("user")
-  token      String   @unique
-  expiresAt  DateTime
-  accepted   Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  email     String
+  tenantId  String
+  tenant    Tenant   @relation("TenantInvitations", fields: [tenantId], references: [id], onDelete: Cascade)
+  role      String   @default("user")
+  token     String   @unique
+  expiresAt DateTime
+  accepted  Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
 
 // --------------------------------------------------
@@ -130,13 +130,13 @@ model Invitation {
 // --------------------------------------------------
 
 model Subscription {
-  id                String   @id @default(cuid())
-  tenantId          String
-  tenant            Tenant   @relation("TenantSubscriptions", fields: [tenantId], references: [id], onDelete: Cascade)
-  stripeCustomerId  String
-  stripeSubId       String
-  status            String   @default("active")
-  currentPeriodEnd  DateTime
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id               String   @id @default(cuid())
+  tenantId         String
+  tenant           Tenant   @relation("TenantSubscriptions", fields: [tenantId], references: [id], onDelete: Cascade)
+  stripeCustomerId String
+  stripeSubId      String
+  status           String   @default("active")
+  currentPeriodEnd DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }

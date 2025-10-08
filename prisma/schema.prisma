@@ -20,14 +20,15 @@ datasource db {
 model Tenant {
   id            String         @id @default(cuid())
   name          String
-  domain        String?        @unique
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  users         User[]         @relation("TenantUsers")
   invitations   Invitation[]   @relation("TenantInvitations")
   shipments     Shipment[]     @relation("TenantShipments")
   subscriptions Subscription[] @relation("TenantSubscriptions")
+  users         User[]         @relation("TenantUsers")
 }
+
+// --------------------------------------------------
+//  USER + AUTH (NextAuth compatible)
+// --------------------------------------------------
 
 model User {
   id            String    @id @default(cuid())
@@ -45,7 +46,6 @@ model User {
   updatedAt     DateTime  @updatedAt
 }
 
-// NextAuth.js models
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -85,17 +85,25 @@ model VerificationToken {
 // --------------------------------------------------
 
 model Shipment {
-  id             String          @id @default(cuid())
-  trackingNo     String          @unique
-  origin         String
-  destination    String
-  status         String          @default("Pending")
-  weight         Float?
-  cost           Float?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  tenantId       String?
-  tenant         Tenant?         @relation("TenantShipments", fields: [tenantId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  trackingNo  String   @unique
+  origin      String
+  destination String
+  status      String   @default("Pending")
+  weight      Float?
+  cost        Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenantId String?
+  tenant   Tenant? @relation("TenantShipments", fields: [tenantId], references: [id])
+
+  assignedDriverId String?
+  assignedDriver   Driver? @relation("DriverShipments", fields: [assignedDriverId], references: [id])
+
+  vehicleId String?
+  vehicle   Vehicle? @relation("VehicleShipments", fields: [vehicleId], references: [id])
+
   trackingEvents TrackingEvent[]
 }
 
@@ -107,6 +115,30 @@ model TrackingEvent {
   remarks    String?
   shipmentId String
   shipment   Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+}
+
+// --------------------------------------------------
+//  DRIVER & VEHICLE
+// --------------------------------------------------
+
+model Driver {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String?
+  licenseNo String?
+  shipments Shipment[] @relation("DriverShipments")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Vehicle {
+  id        String     @id @default(cuid())
+  plateNo   String     @unique
+  model     String?
+  capacity  Float?
+  shipments Shipment[] @relation("VehicleShipments")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 // --------------------------------------------------

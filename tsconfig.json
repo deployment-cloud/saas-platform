@@ -2,7 +2,11 @@
   "compilerOptions": {
     /* === Base config === */
     "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,15 +19,26 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-
     /* === Path alias === */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     },
-
     /* === Next.js compatibility === */
-    "types": ["node", "react", "react-dom", "next", "next/types/global"]
+    "types": [
+      "node",
+      "react",
+      "react-dom",
+      "next",
+      "next/types/global"
+    ],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -31,5 +46,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

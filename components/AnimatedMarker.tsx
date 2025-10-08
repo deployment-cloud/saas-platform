@@ -1,16 +1,17 @@
-import React from "react";
+import { Marker, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import { useEffect } from 'react';
 
 interface AnimatedMarkerProps {
-  lat: number;
-  lng: number;
+  position: [number, number];
 }
 
-const AnimatedMarker: React.FC<AnimatedMarkerProps> = ({ lat, lng }) => {
-  return (
-    <div style={{ transform: `translate(${lat}px, ${lng}px)` }}>
-      📍
-    </div>
-  );
-};
+export const AnimatedMarker = ({ position }: AnimatedMarkerProps) => {
+  const map = useMap();
 
-export default AnimatedMarker;
+  useEffect(() => {
+    map.flyTo(position, map.getZoom(), { animate: true });
+  }, [position, map]);
+
+  return <Marker position={position} icon={L.icon({ iconUrl: '/marker-icon.png' })} />;
+};

@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
 
 export default function AdminInvites() {
   const [email, setEmail] = useState('');
@@ -8,8 +9,8 @@ export default function AdminInvites() {
 
   useEffect(()=>{ fetch('/api/invitations').then(r=>r.json()).then(setInvites); },[]);
 
-  async function createInvite(e) {
-    e.preventDefault();
+ async function createInvite(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
     const res = await fetch('/api/invitations', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email, tenantId: tenant }) });
     const data = await res.json();
     setInvites(prev => [data.invite, ...prev]);

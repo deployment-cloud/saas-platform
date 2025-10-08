@@ -16,17 +16,17 @@ export async function POST(req: Request) {
   try {
     const tenantId = await getTenantIdFromReq(req);
     const data = await req.json();
+
     const s = await prisma.shipment.create({
       data: {
         tenantId,
-        reference: data.reference || `S-${Date.now()}`,
         origin: data.origin || 'Unknown',
         destination: data.destination || 'Unknown',
         weight: data.weight || 0,
         cost: data.cost || 0,
-        warehouseId: data.warehouseId || null
-      }
+      },
     });
+
     return NextResponse.json(s, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 400 });

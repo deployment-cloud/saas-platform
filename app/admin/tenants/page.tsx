@@ -5,10 +5,11 @@ export default async function TenantsPage() {
     <div style={{ padding: 10 }}>
       <h2>Tenants</h2>
       {tenants.map(t => (
-        <div key={t.id}>
-          <strong>{t.name}</strong> — {t.domain ?? "No domain"}
-        </div>
-      ))}
+  <div key={t.id}>
+    <strong>{t.name}</strong>
+  </div>
+))}
+
     </div>
   );
 }

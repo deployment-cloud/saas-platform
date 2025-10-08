@@ -1,20 +1,12 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    turbo: true, // Enables Turbopack for faster dev builds
+  images: { domains: ['localhost', '127.0.0.1'] },
+  webpack(config) {
+    config.resolve.alias['@'] = path.resolve(__dirname);
+    config.resolve.alias['@/components'] = path.resolve(__dirname, 'components');
+    return config;
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-  },
-  eslint: {
-    dirs: ['pages', 'components', 'app', 'lib'],
-  },
-}
-
-module.exports = nextConfig
+};
+module.exports = nextConfig;

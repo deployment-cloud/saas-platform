@@ -1,16 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    // Remove experimental.serverActions as Next 14 enables server actions by default
-  },
   reactStrictMode: true,
-  swcMinify: true,
-  compiler: {
-    styledComponents: true
+  experimental: {
+    turbo: true, // Enables Turbopack for faster dev builds
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   eslint: {
-    ignoreDuringBuilds: true
-  }
-};
+    dirs: ['pages', 'components', 'app', 'lib'],
+  },
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

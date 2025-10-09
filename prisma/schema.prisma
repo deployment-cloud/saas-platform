@@ -12,6 +12,10 @@ datasource db {
   directUrl = env("DIRECT_DATABASE_URL")
 }
 
+// --------------------------------------------------
+//  CORE MODELS
+// --------------------------------------------------
+
 model Tenant {
   id            String         @id @default(cuid())
   name          String
@@ -37,7 +41,10 @@ model User {
   updatedAt     DateTime  @updatedAt
 }
 
-// NextAuth models
+// --------------------------------------------------
+//  NEXTAUTH MODELS
+// --------------------------------------------------
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -78,7 +85,7 @@ model VerificationToken {
 
 model Shipment {
   id               String          @id @default(cuid())
-  trackingNo       String          @unique @default(uuid()) // ✅ auto-generated tracking number
+  trackingNo       String          @unique @default(uuid())
   origin           String
   destination      String
   status           String          @default("Pending")
@@ -90,7 +97,7 @@ model Shipment {
   tenant           Tenant?         @relation("TenantShipments", fields: [tenantId], references: [id], onDelete: Cascade)
   assignedDriverId String?
   vehicleId        String?
-  trackingEvents   TrackingEvent[]
+  trackingEvents   TrackingEvent[] // ✅ Correct relation name
 }
 
 model TrackingEvent {

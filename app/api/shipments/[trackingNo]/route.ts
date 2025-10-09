@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 /**
  * GET /api/shipments/[trackingNo]
- * Fetch a single shipment and its latest tracking update
+ * Fetch a single shipment and its latest tracking event
  */
 export async function GET(
   req: Request,
@@ -13,9 +13,9 @@ export async function GET(
     const shipment = await prisma.shipment.findUnique({
       where: { trackingNo: params.trackingNo },
       include: {
-        tracking: {
+        trackingEvents: {
           orderBy: { timestamp: "desc" },
-          take: 1, // Get latest tracking update only
+          take: 1,
         },
       },
     });
@@ -27,9 +27,12 @@ export async function GET(
       );
     }
 
+    // Optional: Flatten the latest tracking event
+    const latestTracking = shipment.trackingEvents[0] || null;
+
     return NextResponse.json({
       success: true,
-      data: shipment,
+      data: { ...shipment, latestTracking },
     });
   } catch (error) {
     console.error("Error fetching shipment details:", error);

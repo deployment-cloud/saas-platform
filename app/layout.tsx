@@ -1,21 +1,19 @@
-import './globals.css';
-import { ReactNode } from 'react';
-import { ThemeToggle } from '../components/ThemeToggle';
+import "./globals.css";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 export const metadata = {
-  title: 'LogiSaaS',
-  description: 'Logistics SaaS platform',
+  title: "SaaS Platform",
+  description: "Tailwind dark mode toggle example",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-        <header className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-          <h1 className="text-xl font-semibold">LogiSaaS</h1>
-          <ThemeToggle />
+    <html lang="en" className="light">
+      <body className="min-h-screen">
+        <header className="p-4 flex justify-end border-b border-gray-300 dark:border-gray-700">
+          <DarkModeToggle />
         </header>
-        <main className="p-6">{children}</main>
+        <main className="p-4">{children}</main>
       </body>
     </html>
   );

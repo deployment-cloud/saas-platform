@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Your custom styles below */
+/* Optional light/dark body background */
+html.light {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
+html.dark {
+  --bg-color: #1f2937; /* gray-900 */
+  --text-color: #ffffff;
+}
+
 body {
-  @apply bg-gray-50 text-gray-900;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
